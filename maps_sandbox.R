@@ -1,3 +1,6 @@
+# all the work here is inspired by Christian Burkhart (@ChBurkhart)
+# blog post: https://ggplot2tutor.com/streetmaps/streetmaps/
+
 # required libraries ------------------------------------------------------
 library(tidyverse)
 library(osmdata)
@@ -43,16 +46,16 @@ small_streets <- getbb("San Juan in Argentina") %>%
 
 
 # river in San Juan, Argentina
-river <- getbb("San Juan in Argentina")%>%
-  opq()%>%
+river <- getbb("San Juan in Argentina") %>%
+  opq() %>%
   add_osm_feature(key = "waterway", 
                   value = "river") %>%
   osmdata_sf()
 
 
 # public transport
-public_transport <- getbb("San Juan in Argentina")%>%
-  opq()%>%
+public_transport <- getbb("San Juan in Argentina") %>%
+  opq() %>%
   add_osm_feature(key = "public_transport", 
                   value = c("stop_position",
                             "platform",
@@ -62,7 +65,7 @@ public_transport <- getbb("San Juan in Argentina")%>%
 
 
 # shops
-shops <- getbb("San Juan in Argentina")%>%
+shops <- getbb("San Juan in Argentina") %>%
   opq()%>%
   add_osm_feature(key = "shop", 
                   value = c("supermarket",
@@ -72,6 +75,7 @@ shops <- getbb("San Juan in Argentina")%>%
 
 
 # features for Buenos Aires, Argentina ------------------------------------
+
 # streets of Buenos Aires, Argentina
 streets_bsas <- getbb("Buenos Aires in Argentina") %>%
   opq() %>%
@@ -85,8 +89,8 @@ streets_bsas
 
 
 # electrical power generation and distributions systems for Bs As
-electrical_bsas <- getbb("Buenos Aires in Argentina")%>%
-  opq()%>%
+electrical_bsas <- getbb("Buenos Aires in Argentina") %>%
+  opq() %>%
   add_osm_feature(key = "power", 
                   value = c("lines",
                             "minor_line",
@@ -98,8 +102,8 @@ electrical_bsas <- getbb("Buenos Aires in Argentina")%>%
 
 
 # public transport for Buenos Aires
-public_transport_bsas <- getbb("Buenos Aires in Argentina")%>%
-  opq()%>%
+public_transport_bsas <- getbb("Buenos Aires in Argentina") %>%
+  opq() %>%
   add_osm_feature(key = "public_transport", 
                   value = c("stop_position",
                             "platform",
@@ -107,6 +111,14 @@ public_transport_bsas <- getbb("Buenos Aires in Argentina")%>%
                             "stop_area")) %>%
   osmdata_sf()
 
+# shops in Buenos Aires
+shops_bsas <- getbb("Buenos Aires in Argentina") %>%
+  opq() %>%
+  add_osm_feature(key = "shop", 
+                  value = c("supermarket",
+                            "kiosk", 
+                            "general")) %>%
+  osmdata_sf()
 
 
 # plots for San Juan, Argentina -------------------------------------------
@@ -192,21 +204,21 @@ ggplot() +
 
 
 # plots for Buenos Aires --------------------------------------------------
-# main streets and electrical for Bs As
-ggplot() +
+# main streets, electrical and public transport for Bs As
+bsas_map <- ggplot() +
   geom_sf(data = streets_bsas$osm_lines,
           inherit.aes = FALSE,
-          color = "black",
+          color = "steelblue",
           size = .2,
           alpha = .8) +
   geom_sf(data = electrical_bsas$osm_lines,
           inherit.aes = FALSE,
-          color = "red",
+          color = "yellow",
           size = .4,
           alpha = .6) +
   geom_sf(data = public_transport_bsas$osm_lines,
           inherit.aes = FALSE,
-          color = "darkgreen",
+          color = "white",
           size = 1,
           alpha = 1) +
   coord_sf(xlim = c(coord_bsas[1, 1], coord_bsas[1, 2]),
@@ -215,6 +227,8 @@ ggplot() +
   theme_void() +
   theme(plot.background = element_rect(fill = "#282828"))
 
+
+bsas_map
 
 
 
@@ -281,13 +295,13 @@ dark_map
 # save maps
 ggsave("white_map.png", width = 6, height = 6)
 ggsave("dark_map.png", width = 6, height = 6)
-
+ggsave("bsas_map.png", width = 6, height = 6)
 
 
 # save and load workspace -------------------------------------------------
 # save this workspace
-save.image(file = "sj_arg_map_workspace.RData")
+save.image(file = "osm_maps_workspace.RData")
 
 # load workspace
-load("sj_arg_map_workspace.RData")
+load("osm_maps_workspace.RData")
   
