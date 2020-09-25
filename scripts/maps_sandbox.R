@@ -31,6 +31,8 @@ streets <- getbb("San Juan in Argentina") %>%
                             "secondary",
                             "tertiary")) %>%
   osmdata_sf()
+
+# print streets
 streets
 
 # small streets of San Juan, Argentina
@@ -74,6 +76,7 @@ shops <- getbb("San Juan in Argentina") %>%
   osmdata_sf()
 
 
+
 # features for Buenos Aires, Argentina ------------------------------------
 
 # streets of Buenos Aires, Argentina
@@ -85,6 +88,8 @@ streets_bsas <- getbb("Buenos Aires in Argentina") %>%
                             "secondary",
                             "tertiary")) %>%
   osmdata_sf()
+
+# print street_bsas
 streets_bsas
 
 
@@ -227,7 +232,7 @@ bsas_map <- ggplot() +
   theme_void() +
   theme(plot.background = element_rect(fill = "#282828"))
 
-
+# print bsas_map
 bsas_map
 
 
@@ -267,6 +272,7 @@ white_map <- ggplot() +
            expand = FALSE) +
   theme_void()
 
+# print white_map
 white_map
 
 
@@ -288,20 +294,21 @@ dark_map <- ggplot() +
   theme_void() +
   theme(plot.background = element_rect(fill = "#282828"))
 
+# print dark_map
 dark_map
 
 
 # save maps as png files --------------------------------------------------
 # save maps
-ggsave("white_map.png", width = 6, height = 6)
-ggsave("dark_map.png", width = 6, height = 6)
-ggsave("bsas_map.png", width = 6, height = 6)
+ggsave("plots/white_map.png", width = 6, height = 6)
+ggsave("plots/dark_map.png", width = 6, height = 6)
+ggsave("plots/bsas_map.png", width = 6, height = 6)
 
 
 # save and load workspace -------------------------------------------------
 # save this workspace
-save.image(file = "osm_maps_workspace.RData")
+save.image(file = "data/osm_maps_workspace.RData")
 
 # load workspace
-load("osm_maps_workspace.RData")
+load("data/osm_maps_workspace.RData")
   
