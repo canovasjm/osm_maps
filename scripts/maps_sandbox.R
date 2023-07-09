@@ -1,28 +1,29 @@
-# all the work here is inspired by Christian Burkhart (@ChBurkhart)
-# blog post: https://ggplot2tutor.com/streetmaps/streetmaps/
+# All the work here is inspired by Christian Burkhart (@ChBurkhart)
+# Blog post: https://ggplot2tutor.com/streetmaps/streetmaps/
 
-# required libraries ------------------------------------------------------
+# Required libraries ------------------------------------------------------
 library(tidyverse)
 library(osmdata)
+library(sf)
 
 
-# coordinates of San Juan, Argentina --------------------------------------
+# Coordinates of San Juan, Argentina --------------------------------------
 # x-value is longitude and y-value is latitude
 coord_sj <- getbb("San Juan in Argentina")
 
 
-# coordinates of Buenos Aires, Argentina ----------------------------------
+# Coordinates of Buenos Aires, Argentina ----------------------------------
 coord_bsas <- getbb("Buenos Aires in Argentina")
 
 
 
-# features for San Juan, Argentina ----------------------------------------
+# Features for San Juan, Argentina ----------------------------------------
 # OpenStreetMap represents physical features on the ground (e.g., roads or 
 # buildings) using tags attached to its basic data structures. Each tag 
 # describes a geographic attribute of the feature being shown.
 # https://wiki.openstreetmap.org/wiki/Map_Features
 
-# streets of San Juan, Argentina
+# Streets of San Juan, Argentina
 streets <- getbb("San Juan in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "highway", 
@@ -32,10 +33,10 @@ streets <- getbb("San Juan in Argentina") %>%
                             "tertiary")) %>%
   osmdata_sf()
 
-# print streets
+# Print streets
 streets
 
-# small streets of San Juan, Argentina
+# Small streets of San Juan, Argentina
 small_streets <- getbb("San Juan in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "highway", 
@@ -47,7 +48,7 @@ small_streets <- getbb("San Juan in Argentina") %>%
   osmdata_sf()
 
 
-# river in San Juan, Argentina
+# River in San Juan, Argentina
 river <- getbb("San Juan in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "waterway", 
@@ -55,7 +56,7 @@ river <- getbb("San Juan in Argentina") %>%
   osmdata_sf()
 
 
-# public transport
+# Public transport
 public_transport <- getbb("San Juan in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "public_transport", 
@@ -66,7 +67,7 @@ public_transport <- getbb("San Juan in Argentina") %>%
   osmdata_sf()
 
 
-# shops
+# Shops
 shops <- getbb("San Juan in Argentina") %>%
   opq()%>%
   add_osm_feature(key = "shop", 
@@ -77,9 +78,8 @@ shops <- getbb("San Juan in Argentina") %>%
 
 
 
-# features for Buenos Aires, Argentina ------------------------------------
-
-# streets of Buenos Aires, Argentina
+# Features for Buenos Aires, Argentina ------------------------------------
+# Streets of Buenos Aires, Argentina
 streets_bsas <- getbb("Buenos Aires in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "highway", 
@@ -89,11 +89,11 @@ streets_bsas <- getbb("Buenos Aires in Argentina") %>%
                             "tertiary")) %>%
   osmdata_sf()
 
-# print street_bsas
+# Print street_bsas
 streets_bsas
 
 
-# electrical power generation and distributions systems for Bs As
+# Electrical power generation and distributions systems for Bs As
 electrical_bsas <- getbb("Buenos Aires in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "power", 
@@ -106,7 +106,7 @@ electrical_bsas <- getbb("Buenos Aires in Argentina") %>%
   osmdata_sf()
 
 
-# public transport for Buenos Aires
+# Public transport for Buenos Aires
 public_transport_bsas <- getbb("Buenos Aires in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "public_transport", 
@@ -116,7 +116,7 @@ public_transport_bsas <- getbb("Buenos Aires in Argentina") %>%
                             "stop_area")) %>%
   osmdata_sf()
 
-# shops in Buenos Aires
+# Shops in Buenos Aires
 shops_bsas <- getbb("Buenos Aires in Argentina") %>%
   opq() %>%
   add_osm_feature(key = "shop", 
@@ -126,7 +126,7 @@ shops_bsas <- getbb("Buenos Aires in Argentina") %>%
   osmdata_sf()
 
 
-# plots for San Juan, Argentina -------------------------------------------
+# Plots for San Juan, Argentina -------------------------------------------
 # main street map
 ggplot() +
   geom_sf(data = streets$osm_lines,
@@ -139,7 +139,7 @@ coord_sf(xlim = c(-68.575, -68.48),
          expand = FALSE) 
 
 
-# main and small streets and river
+# Main and small streets and river
 ggplot() +
   geom_sf(data = streets$osm_lines,
           inherit.aes = FALSE,
@@ -156,7 +156,7 @@ ggplot() +
            expand = FALSE) 
 
 
-# main streets and river
+# Main streets and river
 ggplot() +
   geom_sf(data = streets$osm_lines,
           inherit.aes = FALSE,
@@ -173,7 +173,7 @@ ggplot() +
            expand = TRUE) 
 
 
-# main streets and public transport
+# Main streets and public transport
 ggplot() +
   geom_sf(data = streets$osm_lines,
           inherit.aes = FALSE,
@@ -190,7 +190,7 @@ ggplot() +
            expand = TRUE) 
 
 
-# main streets and shops
+# Main streets and shops
 ggplot() +
   geom_sf(data = streets$osm_lines,
           inherit.aes = FALSE,
@@ -208,8 +208,8 @@ ggplot() +
 
 
 
-# plots for Buenos Aires --------------------------------------------------
-# main streets, electrical and public transport for Bs As
+# Plots for Buenos Aires --------------------------------------------------
+# Main streets, electrical and public transport for Bs As
 bsas_map <- ggplot() +
   geom_sf(data = streets_bsas$osm_lines,
           inherit.aes = FALSE,
@@ -232,12 +232,12 @@ bsas_map <- ggplot() +
   theme_void() +
   theme(plot.background = element_rect(fill = "#282828"))
 
-# print bsas_map
+# Print bsas_map
 bsas_map
 
 
 
-# improved plots ----------------------------------------------------------
+# Improved plots ----------------------------------------------------------
 # highlight main streets in color
 ggplot() +
   geom_sf(data = streets$osm_lines,
@@ -255,7 +255,7 @@ ggplot() +
            expand = FALSE) 
 
 
-# white map
+# White map
 white_map <- ggplot() +
   geom_sf(data = streets$osm_lines,
           inherit.aes = FALSE,
@@ -272,11 +272,11 @@ white_map <- ggplot() +
            expand = FALSE) +
   theme_void()
 
-# print white_map
+# Print white_map
 white_map
 
 
-# dark map
+# Dark map
 dark_map <- ggplot() +
   geom_sf(data = streets$osm_lines,
           inherit.aes = FALSE,
@@ -294,21 +294,21 @@ dark_map <- ggplot() +
   theme_void() +
   theme(plot.background = element_rect(fill = "#282828"))
 
-# print dark_map
+# Print dark_map
 dark_map
 
 
-# save maps as png files --------------------------------------------------
-# save maps
+# Save maps as png files --------------------------------------------------
+# Save maps
 ggsave("plots/white_map.png", width = 6, height = 6)
 ggsave("plots/dark_map.png", width = 6, height = 6)
 ggsave("plots/bsas_map.png", width = 6, height = 6)
 
 
-# save and load workspace -------------------------------------------------
-# save this workspace
+# Save and load workspace -------------------------------------------------
+# Save this workspace
 save.image(file = "data/osm_maps_workspace.RData")
 
-# load workspace
+# Load workspace
 load("data/osm_maps_workspace.RData")
   
