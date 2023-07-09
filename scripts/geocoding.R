@@ -1,5 +1,4 @@
 # required libraries ------------------------------------------------------
-library(nominatim)
 library(leaflet)
 library(jsonlite)
 
