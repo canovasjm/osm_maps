@@ -22,6 +22,10 @@ coord_bsas <- getbb("Buenos Aires in Argentina")
 # describes a geographic attribute of the feature being shown.
 # https://wiki.openstreetmap.org/wiki/Map_Features
 
+# This is to address: "Error: Overpass query unavailable without internet"
+# Link: https://stackoverflow.com/a/69350806/10152848
+assign("has_internet_via_proxy", TRUE, environment(curl::has_internet))
+
 # Streets of San Juan, Argentina
 streets <- getbb("San Juan, Argentina") %>%
   opq() %>%
