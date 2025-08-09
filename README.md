@@ -1,2 +1,2 @@
-# osm_maps
-work done with Open Street Maps and R
+# OSM Maps
+Maps with Open Street Maps data and R
